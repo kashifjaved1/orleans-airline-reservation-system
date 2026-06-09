@@ -1,0 +1,88 @@
+version: '3.9'
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: orion-sqlserver
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=SafeAirlineP@ssw0rd!
+    ports:
+      - "1433:1433"
+    volumes:
+      - sql_data:/var/opt/mssql
+    healthcheck:
+      test: /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "SafeAirlineP@ssw0rd!" -C -Q "SELECT 1"
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7.2-alpine
+    container_name: orion-redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  rabbitmq:
+    image: rabbitmq:3.12-management-alpine
+    container_name: orion-rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "check_port_connectivity"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api-gateway:
+    image: orionairline-gateway:latest
+    build:
+      context: .
+      dockerfile: Services/Gateway/Dockerfile
+    ports:
+      - "80:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__Redis=redis:6379
+      - JwtSettings__SecretKey=OrionAirline-SuperSecret-Key-Min32Chars!!
+      - JwtSettings__Issuer=OrionAirline
+      - JwtSettings__Audience=OrionAirlineClients
+    depends_on:
+      redis:
+        condition: service_healthy
+
+  api-service:
+    image: orionairline-api:latest
+    build:
+      context: .
+      dockerfile: OrionAirline.Api/Dockerfile
+    ports:
+      - "8080:80"
+      - "11111:11111"
+      - "30000:30000"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__DefaultConnection=Server=sqlserver,1433;Database=OrionAirlineDb;User Id=sa;Password=SafeAirlineP@ssw0rd!;TrustServerCertificate=True;
+      - ConnectionStrings__Redis=redis:6379
+      - ConnectionStrings__RabbitMQ=rabbitmq
+      - JwtSettings__SecretKey=OrionAirline-SuperSecret-Key-Min32Chars!!
+      - JwtSettings__Issuer=OrionAirline
+      - JwtSettings__Audience=OrionAirlineClients
+      - Orleans__ClusterId=OrionAirlineCluster
+      - Orleans__ServiceId=OrionAirlineService
+    depends_on:
+      sqlserver:
+        condition: service_started
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+
+volumes:
+  sql_data:

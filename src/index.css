@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", -apple-system, ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  --color-brand-bg: #09090b;
+  --color-brand-panel: #121217;
+  --color-brand-accent: #06b6d4;
+  --color-brand-success: #10b981;
+  --color-brand-warning: #f59e0b;
+  --color-brand-danger: #ef4444;
+  --color-brand-border: #27272a;
+  --color-brand-text-dim: #71717a;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-brand-bg);
+    color: #fafafa;
+    font-family: var(--font-sans);
+  }
+}
+
+/* Custom design utilities for Technical Dashboard Theme */
+.grid-bg {
+  background-image: radial-gradient(#27272a 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.scanline {
+  width: 100%;
+  height: 2px;
+  background: rgba(6, 182, 212, 0.05);
+  position: absolute;
+  top: 0;
+  pointer-events: none;
+  animation: scan 8s linear infinite;
+}
+
+@keyframes scan {
+  0% { transform: translateY(0vh); }
+  100% { transform: translateY(100vh); }
+}
+
+.glow-btn:hover {
+  box-shadow: 0 0 15px rgba(6, 182, 212, 0.4);
+}
+
+.glow-indicator-cyan {
+  box-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
+}
+
+.glow-indicator-green {
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+}

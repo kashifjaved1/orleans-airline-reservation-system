@@ -1,0 +1,6 @@
+{
+  "name": "Orleans Airline Reservation System",
+  "description": "An interactive distributed-system architectural blueprint and simulation explorer for high-throughput, lock-free seat booking using .NET 9 and Microsoft Orleans.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
