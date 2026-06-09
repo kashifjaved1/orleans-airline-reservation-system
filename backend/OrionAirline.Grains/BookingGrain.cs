@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Orleans;
 using Orleans.Providers;
+using Orleans.Serialization;
 
 namespace OrionAirline.Grains;
 
@@ -113,13 +114,14 @@ public class BookingGrain : Grain<BookingState>, IBookingGrain
     }
 }
 
+[GenerateSerializer]
 public class BookingState
 {
-    public string BookingId { get; set; } = string.Empty;
-    public string PNR { get; set; } = string.Empty;
-    public string FlightId { get; set; } = string.Empty;
-    public List<string> PassengerIds { get; set; } = new();
-    public string SeatNumber { get; set; } = string.Empty;
-    public BookingStatus Status { get; set; } = BookingStatus.Pending;
-    public DateTime CreatedAt { get; set; }
+    [Id(0)] public string BookingId { get; set; } = string.Empty;
+    [Id(1)] public string PNR { get; set; } = string.Empty;
+    [Id(2)] public string FlightId { get; set; } = string.Empty;
+    [Id(3)] public List<string> PassengerIds { get; set; } = new();
+    [Id(4)] public string SeatNumber { get; set; } = string.Empty;
+    [Id(5)] public BookingStatus Status { get; set; } = BookingStatus.Pending;
+    [Id(6)] public DateTime CreatedAt { get; set; }
 }

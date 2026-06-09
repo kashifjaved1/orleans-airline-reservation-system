@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Orleans;
 using Orleans.Providers;
 using Orleans.Runtime;
+using Orleans.Serialization;
 
 namespace OrionAirline.Grains;
 
@@ -104,10 +105,11 @@ public class FlightGrain : Grain<FlightState>, IFlightGrain
     }
 }
 
+[GenerateSerializer]
 public class FlightState
 {
-    public int TotalSeats { get; set; }
-    public int AvailableSeats { get; set; }
-    public int ReservedSeats { get; set; }
-    public Dictionary<string, SeatStatus> Seats { get; set; } = new();
+    [Id(0)] public int TotalSeats { get; set; }
+    [Id(1)] public int AvailableSeats { get; set; }
+    [Id(2)] public int ReservedSeats { get; set; }
+    [Id(3)] public Dictionary<string, SeatStatus> Seats { get; set; } = new();
 }

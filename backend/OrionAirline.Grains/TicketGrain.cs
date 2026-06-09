@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Orleans;
 using Orleans.Providers;
+using Orleans.Serialization;
 
 namespace OrionAirline.Grains;
 
@@ -78,14 +79,15 @@ public class TicketGrain : Grain<TicketState>, ITicketGrain
     }
 }
 
+[GenerateSerializer]
 public class TicketState
 {
-    public string TicketNumber { get; set; } = string.Empty;
-    public string BookingId { get; set; } = string.Empty;
-    public string PassengerId { get; set; } = string.Empty;
-    public string FlightId { get; set; } = string.Empty;
-    public string SeatNumber { get; set; } = string.Empty;
-    public TicketStatus Status { get; set; } = TicketStatus.Cancelled;
-    public DateTime IssuedAtUtc { get; set; }
-    public DateTime? CancelledAtUtc { get; set; }
+    [Id(0)] public string TicketNumber { get; set; } = string.Empty;
+    [Id(1)] public string BookingId { get; set; } = string.Empty;
+    [Id(2)] public string PassengerId { get; set; } = string.Empty;
+    [Id(3)] public string FlightId { get; set; } = string.Empty;
+    [Id(4)] public string SeatNumber { get; set; } = string.Empty;
+    [Id(5)] public TicketStatus Status { get; set; } = TicketStatus.Cancelled;
+    [Id(6)] public DateTime IssuedAtUtc { get; set; }
+    [Id(7)] public DateTime? CancelledAtUtc { get; set; }
 }

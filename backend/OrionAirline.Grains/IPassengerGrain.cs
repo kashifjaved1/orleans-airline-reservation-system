@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Orleans;
+using Orleans.Serialization;
 
 namespace OrionAirline.Grains;
 
@@ -11,10 +12,11 @@ public interface IPassengerGrain : IGrainWithStringKey
     Task AddBookingAsync(string bookingId);
 }
 
+[GenerateSerializer]
 public record PassengerProfile(
-    string PassengerId,
-    string Name,
-    string PassportNumber,
-    string ContactInformation,
-    int LoyaltyPoints
+    [property: Id(0)] string PassengerId,
+    [property: Id(1)] string Name,
+    [property: Id(2)] string PassportNumber,
+    [property: Id(3)] string ContactInformation,
+    [property: Id(4)] int LoyaltyPoints
 );

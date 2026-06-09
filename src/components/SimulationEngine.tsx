@@ -1,4 +1,12 @@
 /**
+ * SimulationEngine — standalone in-memory concurrency simulator.
+ *
+ * This component does NOT connect to the real backend API.
+ * It simulates 1000 concurrent seat-booking requests locally to
+ * demonstrate how Orleans grains serialize concurrent access.
+ *
+ * The real booking flow is in PassengerTerminal.tsx.
+ *
  * @license
  * SPDX-License-Identifier: Apache-2.0
  */

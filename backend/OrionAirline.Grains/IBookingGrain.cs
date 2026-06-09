@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Orleans;
+using Orleans.Serialization;
 
 namespace OrionAirline.Grains;
 
@@ -14,20 +15,22 @@ public interface IBookingGrain : IGrainWithStringKey
     Task<BookingDetails> GetDetailsAsync();
 }
 
+[GenerateSerializer]
 public enum BookingStatus
 {
-    Pending,
-    Confirmed,
-    Cancelled,
-    Expired
+    [Id(0)] Pending,
+    [Id(1)] Confirmed,
+    [Id(2)] Cancelled,
+    [Id(3)] Expired
 }
 
+[GenerateSerializer]
 public record BookingDetails(
-    string BookingId,
-    string PNR,
-    string FlightId,
-    List<string> PassengerIds,
-    string SeatNumber,
-    BookingStatus Status,
-    DateTime CreatedAt
+    [property: Id(0)] string BookingId,
+    [property: Id(1)] string PNR,
+    [property: Id(2)] string FlightId,
+    [property: Id(3)] List<string> PassengerIds,
+    [property: Id(4)] string SeatNumber,
+    [property: Id(5)] BookingStatus Status,
+    [property: Id(6)] DateTime CreatedAt
 );

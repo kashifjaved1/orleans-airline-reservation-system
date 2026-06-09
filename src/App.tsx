@@ -12,8 +12,8 @@ import ArchitectureMap from "./components/ArchitectureMap";
 import SimulationEngine from "./components/SimulationEngine";
 import PassengerTerminal from "./components/PassengerTerminal";
 
-const SHOW_DEV_TABS = true;
-const SHOW_AUDIT_TRAIL = true;
+const SHOW_DEV_TABS = import.meta.env.VITE_SHOW_DEV_TABS === "true";
+const SHOW_AUDIT_TRAIL = import.meta.env.VITE_SHOW_AUDIT_TRAIL !== "false";
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<"architecture" | "passenger_portal" | "simulation">("passenger_portal");

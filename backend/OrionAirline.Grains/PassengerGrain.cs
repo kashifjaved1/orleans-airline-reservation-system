@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Orleans;
 using Orleans.Providers;
+using Orleans.Serialization;
 
 namespace OrionAirline.Grains;
 
@@ -73,12 +74,13 @@ public class PassengerGrain : Grain<PassengerState>, IPassengerGrain
     }
 }
 
+[GenerateSerializer]
 public class PassengerState
 {
-    public string PassengerId { get; set; } = string.Empty;
-    public string Name { get; set; } = string.Empty;
-    public string PassportNumber { get; set; } = string.Empty;
-    public string ContactInformation { get; set; } = string.Empty;
-    public int LoyaltyPoints { get; set; }
-    public System.Collections.Generic.List<string> BookingIds { get; set; } = new();
+    [Id(0)] public string PassengerId { get; set; } = string.Empty;
+    [Id(1)] public string Name { get; set; } = string.Empty;
+    [Id(2)] public string PassportNumber { get; set; } = string.Empty;
+    [Id(3)] public string ContactInformation { get; set; } = string.Empty;
+    [Id(4)] public int LoyaltyPoints { get; set; }
+    [Id(5)] public System.Collections.Generic.List<string> BookingIds { get; set; } = new();
 }

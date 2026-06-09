@@ -23,10 +23,3 @@ public class DbInboxMessage
     [MaxLength(500)]
     public string? ErrorMessage { get; set; }
 }
-
-public interface IInboxConsumer
-{
-    Task<bool> IsMessageProcessedAsync(string messageId);
-    Task MarkAsProcessedAsync(string messageId, string eventType, string payload);
-    Task MarkAsFailedAsync(string messageId, string errorMessage);
-}
