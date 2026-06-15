@@ -16,9 +16,7 @@ public class FlightGrain : Grain<FlightState>, IFlightGrain
     {
         if (State.Seats == null || State.Seats.Count == 0)
         {
-            State.TotalSeats = 0;
-            State.Seats = new Dictionary<string, SeatStatus>();
-            await WriteStateAsync();
+            await InitializeAsync(102);
         }
         await base.OnActivateAsync(cancellationToken);
     }
